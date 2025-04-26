@@ -73,6 +73,80 @@ if __name__ == '__main__':
 
     algorithmChoice = int(input())
 
+    #H(n)
+    def misplacedTile(inputState):
+        count = 0
+        for i in range(3):
+            for j in range(3):
+                if(inputState[i][j] != goalState[i][j]):
+                    count += 1
+
+        return count
+    
+    #G(n)
+    #Down
+    def moveDown(inputState):
+        row = 0
+        col = 0
+        movedTile = 0
+        for i in range(3):
+            for j in range(3):
+                if(inputState[i][j] == 0):
+                    row = i
+                    col = j
+        if(row != 2):
+            movedTile = inputState[row + 1][col]
+            inputState[row + 1][col] = 0
+            inputState[row][col] = movedTile
+            return 1
+        
+    def moveUp(inputState):
+        row = 0
+        col = 0
+        movedTile = 0
+        for i in range(3):
+            for j in range(3):
+                if(inputState[i][j] == 0):
+                    row = i
+                    col = j
+        if(row != 0):
+            movedTile = inputState[row - 1][col]
+            inputState[row - 1][col] = 0
+            inputState[row][col] = movedTile
+            return 1
+        
+    def moveRight(inputState):
+        row = 0
+        col = 0
+        movedTile = 0
+        for i in range(3):
+            for j in range(3):
+                if(inputState[i][j] == 0):
+                    row = i
+                    col = j
+        if(col != 2):
+            movedTile = inputState[row][col + 1]
+            inputState[row][col+1] = 0
+            inputState[row][col] = movedTile
+            return 1
+        
+    def moveLeft(inputState):
+        row = 0
+        col = 0
+        movedTile = 0
+        for i in range(3):
+            for j in range(3):
+                if(inputState[i][j] == 0):
+                    row = i
+                    col = j
+        if(col != 0):
+            movedTile = inputState[row][col - 1]
+            inputState[row][col-1] = 0
+            inputState[row][col] = movedTile
+            return 1
+        
+        
+
 
     def graphSearch(problem, userInput):
         
