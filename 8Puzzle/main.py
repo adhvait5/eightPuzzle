@@ -30,7 +30,33 @@ class PriorityQueue(object):
             print()
             exit()
 
+#Node class from https://www.geeksforgeeks.org/python-program-for-inserting-a-node-in-a-linked-list/
+class Node:
+ 
+    # Function to initialize the 
+    # node object
+    def __init__(self, data):
+ 
+        # Assign data
+        if data == None:
+            self.data = np.array([[0,0,0], [0,0,0], [0,0,0]])
+            self.root = None
+            self.h = 0
+        else:
+            self.data = data
+            self.root = None
+            self.h = 0
+        
+        def updateState(self, updateState):
+            self.data = np.array(updateState)
 
+        def returnState(self):
+            return self.data
+ 
+        # Initialize next as null
+        self.next = None 
+ 
+ 
 if __name__ == '__main__':
 
     print("Welcome to 862350417's, SID, and SIDs 8 puzzle solver. Enter your puzzle, use a zero to represent the blank")
@@ -38,31 +64,34 @@ if __name__ == '__main__':
     rows = 3
     col = 3
 
-    userInput = np.array([[0,0,0], [0,0,0], [0,0,0]])
+    userInput = Node()
     print("entries row-wise:")
     for i in range(3):
         for j in range(3):
-            userInput[i][j] = int(input())
+            userInput.state[i][j] = int(input())
 
 
     print("")
     print("Your matrix is:")
     print("")
 
-    for i in range(rows):
-        for j in range(col):
-            print(userInput[i][j], end=" ")
-        print()
+    #for i in range(rows):
+       # for j in range(col):
+            #print(userInput[i][j], end=" ")
+       # print()
+
+    print(userInput.returnState())
 
     print("")
     print("Goal State:")
     print("")
 
-    goalState = np.array([[1,2,3], [4,5,6], [7,8,0]])
+    goalState = Node(np.array([[1,2,3], [4,5,6], [7,8,0]]))
     for i in range(rows):
         for j in range(col):
             print(goalState[i][j], end=" ")
-        print()
+
+    print(goalState.returnState())
 
     print("Choose your Algorithm")
     print("1)Uniform Cost Search")
@@ -149,39 +178,42 @@ if __name__ == '__main__':
     def graphSearch(problem, userInput):
         
 
-        if problem == 1:
+        if problem == 1: #Uniform Cost Search
+
             bool = False
-            
+            frontier = PriorityQueue()
+            frontier.insert(userInput)
+
+            exploreSet = PriorityQueue()
+
             while(bool != True):
-                #check
-                rows = 3
-                col = 3
-                frontier = PriorityQueue()
-                exploreSet = PriorityQueue()
-                for i in range(rows):
-                    for j in range(col):
-                        frontier.insert(userInput[i][j])
-                        
-                while bool != True:
 
-                    if frontier.isEmpty() == True:
-                        print("failure")
+                if frontier.isEmpty() == True:
+                    print("failure")
 
-                    #psuedoCode 
-                    if(node == goalState)
-                        return corresponding solution
-                    
-                    exploreSet = node.insert()
+                currNode = frontier.delete()
 
-                    #expandNode function
+                #psuedoCode for now
+                if(currNode.data == goalState.data):
+                    print("Solution found!")
+                    break
+                
+                moveDown(currNode)
+                moveUp(currNode)
+                moveRight(currNode)
+                moveLeft(currNode)
+                
+                exploreSet.insert(currNode)
+
+                #expandNode function for repeated states
 
                     
 
 
 
-        elif problem == 2:
+        elif problem == 2: #A* Misplaced tile
             return
-        elif problem == 3:
+        elif problem == 3: #A* Euclidean Distance
             return
 
 
