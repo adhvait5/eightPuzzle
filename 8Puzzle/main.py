@@ -1,7 +1,5 @@
 import numpy as np
 
-
-
 # Priority Queue from https://www.geeksforgeeks.org/priority-queue-in-python/
 class PriorityQueue(object):
     def __init__(self):
