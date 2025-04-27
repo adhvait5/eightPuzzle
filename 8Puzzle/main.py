@@ -47,6 +47,11 @@ class Node:
         self.hN = 0
         self.gN = 0
         self.fN = self.gN + self.hN
+
+        self.down = None
+        self.up = None
+        self.right = None
+        self.left = None
         
 
     def __lt__(self, o):
@@ -55,15 +60,12 @@ class Node:
     def __gt__(self, o):
         return self.fN > o.fN
 
-    def updateState(self, updateState):
-        self.data = np.array(updateState)
-
  
  
  
 if __name__ == '__main__':
 
-    print("Welcome to 862350417's, SID, and SIDs 8 puzzle solver. Enter your puzzle, use a zero to represent the blank")
+    print("Welcome to 862350417's 8 puzzle solver. Enter your puzzle, use a zero to represent the blank")
 
     rows = 3
     col = 3
@@ -119,61 +121,77 @@ if __name__ == '__main__':
         row = 0
         col = 0
         movedTile = 0
+        copyInput = Node(np.copy(inputState.data))
         for i in range(3):
             for j in range(3):
-                if(inputState[i][j] == 0):
+                if(inputState.data[i][j] == 0):
                     row = i
                     col = j
         if(row != 2):
-            movedTile = inputState[row + 1][col]
-            inputState[row + 1][col] = 0
-            inputState[row][col] = movedTile
-            return 1
+            movedTile = inputState.data[row + 1][col]
+            copyInput.data[row + 1][col] = 0
+            copyInput.data[row][col] = movedTile
+            inputState.down = copyInput
+            inputState.down.root = inputState
+            
+            inputState.down.gN = inputState.gN + 1
         
     def moveUp(inputState):
         row = 0
         col = 0
         movedTile = 0
+        copyInput = Node(np.copy(inputState.data))
         for i in range(3):
             for j in range(3):
-                if(inputState[i][j] == 0):
+                if(inputState.data[i][j] == 0):
                     row = i
                     col = j
         if(row != 0):
-            movedTile = inputState[row - 1][col]
-            inputState[row - 1][col] = 0
-            inputState[row][col] = movedTile
-            return 1
+            movedTile = inputState.data[row - 1][col]
+            copyInput.data[row - 1][col] = 0
+            copyInput.data[row][col] = movedTile
+            inputState.up = copyInput
+            inputState.up.root = inputState
+            
+            inputState.up.gN = inputState.gN + 1
         
     def moveRight(inputState):
         row = 0
         col = 0
         movedTile = 0
+        copyInput = Node(np.copy(inputState.data))
         for i in range(3):
             for j in range(3):
-                if(inputState[i][j] == 0):
+                if(inputState.data[i][j] == 0):
                     row = i
                     col = j
         if(col != 2):
-            movedTile = inputState[row][col + 1]
-            inputState[row][col+1] = 0
-            inputState[row][col] = movedTile
-            return 1
+            movedTile = inputState.data[row][col + 1]
+            copyInput.data[row][col+1] = 0
+            copyInput.data[row][col] = movedTile
+            inputState.right= copyInput
+            inputState.right.root = inputState
+            
+            inputState.right.gN = inputState.gN + 1
         
     def moveLeft(inputState):
         row = 0
         col = 0
         movedTile = 0
+        copyInput = Node(np.copy(inputState.data))
         for i in range(3):
             for j in range(3):
-                if(inputState[i][j] == 0):
+                if(inputState.data[i][j] == 0):
                     row = i
                     col = j
         if(col != 0):
-            movedTile = inputState[row][col - 1]
-            inputState[row][col-1] = 0
-            inputState[row][col] = movedTile
-            return 1
+            movedTile = inputState.data[row][col - 1]
+            copyInput.data[row][col-1] = 0
+            copyInput.data[row][col] = movedTile
+            inputState.left = copyInput
+            inputState.left.root = inputState
+            
+            inputState.left.gN = inputState.gN + 1
         
         
 
@@ -188,7 +206,7 @@ if __name__ == '__main__':
             frontier = PriorityQueue()
             frontier.insert(userInputNode)
 
-            exploreSet = PriorityQueue()
+            exploreSet = set()
 
             while(bool != True):
 
@@ -198,6 +216,13 @@ if __name__ == '__main__':
 
                 currNode = frontier.delete()
 
+                currTuple = []
+                for i in currNode.data:
+                    currTuple.append(tuple(i))
+
+                exploreNode = tuple(currTuple)
+
+
                 #Goal Check
                 goalFound = 0
                 for i in range(3):
@@ -206,19 +231,36 @@ if __name__ == '__main__':
                             goalFound += 1
                 if goalFound == 9:
                     print("Solution found!")
+                    print("Cost: ")
+                    print(currNode.gN)
                     break
                 else:
                     goalFound = 0
-                   
-                
-                moveDown(currNode)
-                moveUp(currNode)
-                moveRight(currNode)
-                moveLeft(currNode)
-                
-                exploreSet.insert(currNode)
+                    
+                if exploreNode not in exploreSet:
 
-                #expandNode function for repeated states
+                    exploreSet.add(exploreNode)
+
+
+                    if currNode not in frontier.queue:
+                        moveDown(currNode)
+                        moveUp(currNode)
+                        moveRight(currNode)
+                        moveLeft(currNode)
+                        
+
+                        if currNode.down != None:
+                            frontier.insert(currNode.down)
+
+                        if currNode.up != None:
+                            frontier.insert(currNode.up)
+
+                        if currNode.left != None:
+                            frontier.insert(currNode.left)
+                            
+                        if currNode.right != None:
+                            frontier.insert(currNode.right)
+
 
                     
 
