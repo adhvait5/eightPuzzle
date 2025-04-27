@@ -30,7 +30,11 @@ class PriorityQueue(object):
             print()
             exit()
 
+
 #Node class from https://www.geeksforgeeks.org/python-program-for-inserting-a-node-in-a-linked-list/
+#https://www.geeksforgeeks.org/python-__lt__-magic-method/
+
+
 class Node:
  
     # Function to initialize the 
@@ -38,23 +42,23 @@ class Node:
     def __init__(self, data):
  
         # Assign data
-        if data == None:
-            self.data = np.array([[0,0,0], [0,0,0], [0,0,0]])
-            self.root = None
-            self.h = 0
-        else:
-            self.data = data
-            self.root = None
-            self.h = 0
+        self.data = data
+        self.root = None
+        self.hN = 0
+        self.gN = 0
+        self.fN = self.gN + self.hN
         
-        def updateState(self, updateState):
-            self.data = np.array(updateState)
 
-        def returnState(self):
-            return self.data
+    def __lt__(self, o):
+        return self.fN < o.fN
+    
+    def __gt__(self, o):
+        return self.fN > o.fN
+
+    def updateState(self, updateState):
+        self.data = np.array(updateState)
+
  
-        # Initialize next as null
-        self.next = None 
  
  
 if __name__ == '__main__':
@@ -64,34 +68,33 @@ if __name__ == '__main__':
     rows = 3
     col = 3
 
-    userInput = Node()
+    userInput = np.array([[0,0,0], [0,0,0], [0,0,0]])
+
     print("entries row-wise:")
     for i in range(3):
         for j in range(3):
-            userInput.state[i][j] = int(input())
+            userInput[i][j] = int(input())
 
 
     print("")
     print("Your matrix is:")
     print("")
 
-    #for i in range(rows):
-       # for j in range(col):
-            #print(userInput[i][j], end=" ")
-       # print()
+    for i in range(rows):
+       for j in range(col):
+            print(userInput[i][j], end=" ")
+       print()
 
-    print(userInput.returnState())
 
     print("")
     print("Goal State:")
     print("")
 
-    goalState = Node(np.array([[1,2,3], [4,5,6], [7,8,0]]))
+    goalState = np.array([[1,2,3], [4,5,6], [7,8,0]])
     for i in range(rows):
         for j in range(col):
             print(goalState[i][j], end=" ")
-
-    print(goalState.returnState())
+        print()
 
     print("Choose your Algorithm")
     print("1)Uniform Cost Search")
@@ -181,8 +184,9 @@ if __name__ == '__main__':
         if problem == 1: #Uniform Cost Search
 
             bool = False
+            userInputNode = Node(userInput)
             frontier = PriorityQueue()
-            frontier.insert(userInput)
+            frontier.insert(userInputNode)
 
             exploreSet = PriorityQueue()
 
@@ -190,13 +194,22 @@ if __name__ == '__main__':
 
                 if frontier.isEmpty() == True:
                     print("failure")
+                    return
 
                 currNode = frontier.delete()
 
-                #psuedoCode for now
-                if(currNode.data == goalState.data):
+                #Goal Check
+                goalFound = 0
+                for i in range(3):
+                    for j in range(3):
+                        if(currNode.data[i][j] == goalState[i][j]):
+                            goalFound += 1
+                if goalFound == 9:
                     print("Solution found!")
                     break
+                else:
+                    goalFound = 0
+                   
                 
                 moveDown(currNode)
                 moveUp(currNode)
