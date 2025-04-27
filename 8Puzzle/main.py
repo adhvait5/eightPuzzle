@@ -106,14 +106,17 @@ if __name__ == '__main__':
     algorithmChoice = int(input())
 
     #H(n)
-    def misplacedTile(inputState):
+    def misplacedTile(inputState, goalState):
         count = 0
         for i in range(3):
             for j in range(3):
-                if(inputState[i][j] != goalState[i][j]):
+                if(inputState.data[i][j] != goalState[i][j]):
                     count += 1
 
-        return count
+        if count == 0:
+            return count
+        else:
+            return count-1
     
     #G(n)
     #Down
@@ -267,7 +270,12 @@ if __name__ == '__main__':
 
 
         elif problem == 2: #A* Misplaced tile
-            return
+            bool = False
+            userInputNode = Node(userInput)
+            userInputNode.hN = misplacedTile(userInputNode, goalState)
+            frontier = PriorityQueue()
+            frontier.insert(userInputNode)
+            return print(userInputNode.hN)
         elif problem == 3: #A* Euclidean Distance
             return
 
