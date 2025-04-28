@@ -116,6 +116,23 @@ if __name__ == '__main__':
 
         return count
     
+    def euclideanDist(inputState,goalState):
+        count = 0
+
+        for i in range(3):
+            for j in range(3):
+                if(inputState.data[i][j] != 0):
+                    if(inputState.data[i][j] != goalState[i][j]):
+                        indexVal = inputState.data[i][j]
+                        for k in range(3):
+                            for l in range(3):
+                                if(goalState[k][l] == indexVal):
+                                    count += np.sqrt(np.square(k-i) + np.square(l-j))
+
+      
+        return count
+    
+
     #G(n)
     #Down
     def moveDown(inputState):
@@ -400,7 +417,105 @@ if __name__ == '__main__':
 
 
         elif problem == 3: #A* Euclidean Distance
-            return
+            bool = False
+            userInputNode = Node(userInput)
+            userInputNode.hN = euclideanDist(userInputNode, goalState)
+            frontier = PriorityQueue()
+            frontier.insert(userInputNode)
+            maxQueueSize = 0
+
+            #return print(userInputNode.hN)
+
+            exploreSet = set()
+
+            while(bool != True):
+
+                if frontier.isEmpty() == True:
+                    print("failure")
+                    return
+                
+                if len(frontier.queue) > maxQueueSize:
+                    maxQueueSize = len(frontier.queue)
+
+                currNode = frontier.delete()
+
+                currTuple = []
+                for i in currNode.data:
+                    currTuple.append(tuple(i))
+
+                exploreNode = tuple(currTuple)
+                currTuple = []
+
+
+                #Goal Check
+                goalFound = 0
+                for i in range(3):
+                    for j in range(3):
+                        if(currNode.data[i][j] == goalState[i][j]):
+                            goalFound += 1
+                if goalFound == 9:
+                    print("Solution found!")
+                    print("")
+                    print("Cost:")
+                    print(currNode.gN + currNode. hN)
+                    print("Maximum size of the queue: ")
+                    print(maxQueueSize)
+                    break
+                else:
+                    goalFound = 0
+                    
+      
+
+                    exploreSet.add(exploreNode)
+
+
+                    moveDown(currNode)
+                    moveUp(currNode)
+                    moveRight(currNode)
+                    moveLeft(currNode)
+                        
+
+                    if currNode.down != None:
+                        currTuple = []
+                        for i in currNode.down.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeDown = tuple(currTuple)
+
+                        if currNode.down not in frontier.queue or exploreNodeDown not in exploreSet:
+                            currNode.down.hN = euclideanDist(currNode.down, goalState)
+                            frontier.insert(currNode.down)
+
+                    if currNode.up != None:
+                        currTuple = []
+                        for i in currNode.up.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeUp = tuple(currTuple)
+                        if currNode.up not in frontier.queue or exploreNodeUp not in exploreSet:
+                            currNode.up.hN = euclideanDist(currNode.up, goalState)
+                            frontier.insert(currNode.up)
+
+                    if currNode.left != None:
+                        currTuple = []
+                        for i in currNode.left.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeLeft = tuple(currTuple)
+                        if currNode.left not in frontier.queue or exploreNodeLeft not in exploreSet:
+                            currNode.left.hN = euclideanDist(currNode.left, goalState)
+                            frontier.insert(currNode.left)
+                        
+                    if currNode.right != None:
+                        currTuple = []
+                        for i in currNode.right.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeRight = tuple(currTuple)
+                        if currNode.right not in frontier.queue or exploreNodeRight not in exploreSet:
+                            currNode.right.hN = euclideanDist(currNode.right, goalState)
+                            frontier.insert(currNode.right)
+
 
 
     graphSearch(algorithmChoice, userInput)
