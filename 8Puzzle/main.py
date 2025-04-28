@@ -277,7 +277,7 @@ if __name__ == '__main__':
                     currTuple.append(tuple(i))
 
                 exploreNode = tuple(currTuple)
-                exploreSet.add(exploreNode)
+                
 
 
                 #Goal Check
@@ -297,7 +297,10 @@ if __name__ == '__main__':
                 else:
                     goalFound = 0
                     
+                    print("The best state to expand with g(n)= " + str(currNode.gN) + " and h(n)= " + str(currNode.hN) + " is...")
                     currNode.print()
+                    print("Expanding this node...")
+                    exploreSet.add(exploreNode)
                     
                     
                     
@@ -429,8 +432,9 @@ if __name__ == '__main__':
                 else:
                     goalFound = 0
                     
-      
+                    print("The best state to expand with g(n)= " + str(currNode.gN) + " and h(n)= " + str(currNode.hN) + " is...")
                     currNode.print()
+                    print("Expanding this node...")
                     exploreSet.add(exploreNode)
 
 
@@ -558,8 +562,9 @@ if __name__ == '__main__':
                 else:
                     goalFound = 0
                     
-      
+                    print("The best state to expand with g(n)= " + str(currNode.gN) + " and h(n)= " + str(currNode.hN) + " is...")
                     currNode.print()
+                    print("Expanding this node...")
                     exploreSet.add(exploreNode)
 
 
