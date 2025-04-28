@@ -72,25 +72,49 @@ class Node:
  
 if __name__ == '__main__':
 
-    print("Welcome to 862350417's 8 puzzle solver. Enter your puzzle, use a zero to represent the blank")
+    print("Welcome to 862350417's 8 puzzle solver!")
+    print("Choose a puzzle:")
+    print("1)Trivial")
+    print("2)Easy")
+    print("3)Very Easy")
+    print("4)Doable")
+    print("5)Oh Boy")
+    print("6)Impossible")
+    print("7)Enter your own Puzzle")
+    print("")
+    puzzleChoice = int(input())
 
-    rows = 3
-    col = 3
-
-    userInput = np.array([[0,0,0], [0,0,0], [0,0,0]])
-
-    print("Enter your puzzle row-wise:")
-    for i in range(3):
-        for j in range(3):
-            userInput[i][j] = int(input())
+    #rows = 3
+    #col = 3
+    
+    if puzzleChoice == 1:
+        userInput = np.array([[1,2,3], [4,5,6], [7,8,0]])
+    if puzzleChoice == 2:
+        userInput = np.array([[1,2,0], [4,5,3], [7,8,6]])
+    if puzzleChoice == 3:
+        userInput = np.array([[1,2,3], [4,5,6], [7,0,8]])
+    if puzzleChoice == 4:
+        userInput = np.array([[0,1,2], [4,5,3], [7,8,6]])
+    if puzzleChoice == 5:
+        userInput = np.array([[8,7,1], [6,0,2], [5,4,3]])
+    if puzzleChoice == 6:
+        userInput = np.array([[1,2,3], [4,5,6], [8,7,0]])
+    if puzzleChoice == 7:
+        userInput = np.array([[0,0,0], [0,0,0], [0,0,0]])
+        
+        print("Enter your puzzle, use a zero to represent the blank")
+        print("Enter your puzzle row-wise:")
+        for i in range(3):
+            for j in range(3):
+                userInput[i][j] = int(input())
 
 
     print("")
     print("Your matrix is:")
     print("")
 
-    for i in range(rows):
-       for j in range(col):
+    for i in range(3):
+       for j in range(3):
             print(userInput[i][j], end=" ")
        print()
 
@@ -100,12 +124,13 @@ if __name__ == '__main__':
     print("")
 
     goalState = np.array([[1,2,3], [4,5,6], [7,8,0]])
-    for i in range(rows):
-        for j in range(col):
+    for i in range(3):
+        for j in range(3):
             print(goalState[i][j], end=" ")
         print()
 
-    print("Choose your Algorithm")
+    print("")
+    print("Choose your Algorithm:")
     print("1)Uniform Cost Search")
     print("2)A* with the Misplaced Tile heuristic.")
     print("3)A* with the Euclidean distance heuristic")
@@ -283,6 +308,21 @@ if __name__ == '__main__':
                     moveRight(currNode)
                     moveLeft(currNode)
                     
+                    if currNode.right != None:
+                        currTuple = []
+                        for i in currNode.right.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeRight = tuple(currTuple)
+
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.right.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeRight not in exploreSet:
+                            frontier.insert(currNode.right)
 
                     if currNode.down != None:
                         currTuple = []
@@ -332,21 +372,7 @@ if __name__ == '__main__':
                         if frontierBool and exploreNodeLeft not in exploreSet:
                             frontier.insert(currNode.left)
                         
-                    if currNode.right != None:
-                        currTuple = []
-                        for i in currNode.right.data:
-                            currTuple.append(tuple(i))
-
-                        exploreNodeRight = tuple(currTuple)
-
-                        frontierBool = True
-                        for i in frontier.queue:
-                            if (np.array_equal(currNode.right.data, i.data)):
-                                frontierBool = False
-                                break
-
-                        if frontierBool and exploreNodeRight not in exploreSet:
-                            frontier.insert(currNode.right)
+                    
 
 
                     
@@ -397,12 +423,13 @@ if __name__ == '__main__':
                     print(currNode.gN + currNode. hN)
                     print("Maximum size of the queue: ")
                     print(maxQueueSize)
+                    print("")
                     break
                 else:
                     goalFound = 0
                     
       
-
+                    currNode.print()
                     exploreSet.add(exploreNode)
 
 
@@ -557,4 +584,5 @@ if __name__ == '__main__':
 
 
 
+    #Run code
     graphSearch(algorithmChoice, userInput)
