@@ -19,12 +19,12 @@ class PriorityQueue(object):
 
     def delete(self):
         try:
-            max_val = 0
+            min_val = 0
             for i in range(len(self.queue)):
-                if self.queue[i] > self.queue[max_val]:
-                    max_val = i
-            item = self.queue[max_val]
-            del self.queue[max_val]
+                if self.queue[i] < self.queue[min_val]:
+                    min_val = i
+            item = self.queue[min_val]
+            del self.queue[min_val]
             return item
         except IndexError:
             print()
@@ -46,7 +46,7 @@ class Node:
         self.root = None
         self.hN = 0
         self.gN = 0
-        self.fN = self.gN + self.hN
+        #self.fN = self.gN + self.hN
 
         self.down = None
         self.up = None
@@ -55,7 +55,7 @@ class Node:
         
 
     def __lt__(self, o):
-        return self.fN < o.fN
+        return self.hN + self.gN < o.gN + o.hN
     
     def __gt__(self, o):
         return self.fN > o.fN
@@ -110,13 +110,11 @@ if __name__ == '__main__':
         count = 0
         for i in range(3):
             for j in range(3):
-                if(inputState.data[i][j] != goalState[i][j]):
-                    count += 1
+                if(inputState.data[i][j] != 0):
+                    if(inputState.data[i][j] != goalState[i][j]):
+                        count += 1
 
-        if count == 0:
-            return count
-        else:
-            return count-1
+        return count
     
     #G(n)
     #Down
@@ -208,6 +206,7 @@ if __name__ == '__main__':
             userInputNode = Node(userInput)
             frontier = PriorityQueue()
             frontier.insert(userInputNode)
+            maxQueueSize = 0
 
             exploreSet = set()
 
@@ -216,6 +215,9 @@ if __name__ == '__main__':
                 if frontier.isEmpty() == True:
                     print("failure")
                     return
+                
+                if len(frontier.queue) > maxQueueSize:
+                    maxQueueSize = len(frontier.queue)
 
                 currNode = frontier.delete()
 
@@ -234,34 +236,60 @@ if __name__ == '__main__':
                             goalFound += 1
                 if goalFound == 9:
                     print("Solution found!")
-                    print("Cost: ")
+                    print("")
+                    print("Cost:")
                     print(currNode.gN)
+                    print("Maximum size of the queue: ")
+                    print(maxQueueSize)
                     break
                 else:
                     goalFound = 0
                     
-                if exploreNode not in exploreSet:
-
                     exploreSet.add(exploreNode)
 
 
-                    if currNode not in frontier.queue:
-                        moveDown(currNode)
-                        moveUp(currNode)
-                        moveRight(currNode)
-                        moveLeft(currNode)
-                        
+                    
+                    moveDown(currNode)
+                    moveUp(currNode)
+                    moveRight(currNode)
+                    moveLeft(currNode)
+                    
 
-                        if currNode.down != None:
+                    if currNode.down != None:
+                        currTuple = []
+                        for i in currNode.down.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeDown = tuple(currTuple)
+
+                        if currNode.down not in frontier.queue or exploreNodeDown not in exploreSet:
                             frontier.insert(currNode.down)
 
-                        if currNode.up != None:
+                    if currNode.up != None:
+                        currTuple = []
+                        for i in currNode.up.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeUp = tuple(currTuple)
+                        if currNode.up not in frontier.queue or exploreNodeUp not in exploreSet:
                             frontier.insert(currNode.up)
 
-                        if currNode.left != None:
+                    if currNode.left != None:
+                        currTuple = []
+                        for i in currNode.left.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeLeft = tuple(currTuple)
+                        if currNode.left not in frontier.queue or exploreNodeLeft not in exploreSet:
                             frontier.insert(currNode.left)
-                            
-                        if currNode.right != None:
+                        
+                    if currNode.right != None:
+                        currTuple = []
+                        for i in currNode.right.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeRight = tuple(currTuple)
+                        if currNode.right not in frontier.queue or exploreNodeRight not in exploreSet:
                             frontier.insert(currNode.right)
 
 
@@ -275,7 +303,102 @@ if __name__ == '__main__':
             userInputNode.hN = misplacedTile(userInputNode, goalState)
             frontier = PriorityQueue()
             frontier.insert(userInputNode)
-            return print(userInputNode.hN)
+            maxQueueSize = 0
+
+            #return print(userInputNode.hN)
+
+            exploreSet = set()
+
+            while(bool != True):
+
+                if frontier.isEmpty() == True:
+                    print("failure")
+                    return
+                
+                if len(frontier.queue) > maxQueueSize:
+                    maxQueueSize = len(frontier.queue)
+
+                currNode = frontier.delete()
+
+                currTuple = []
+                for i in currNode.data:
+                    currTuple.append(tuple(i))
+
+                exploreNode = tuple(currTuple)
+                currTuple = []
+
+
+                #Goal Check
+                goalFound = 0
+                for i in range(3):
+                    for j in range(3):
+                        if(currNode.data[i][j] == goalState[i][j]):
+                            goalFound += 1
+                if goalFound == 9:
+                    print("Solution found!")
+                    print("")
+                    print("Cost:")
+                    print(currNode.gN + currNode. hN)
+                    print("Maximum size of the queue: ")
+                    print(maxQueueSize)
+                    break
+                else:
+                    goalFound = 0
+                    
+      
+
+                    exploreSet.add(exploreNode)
+
+
+                    moveDown(currNode)
+                    moveUp(currNode)
+                    moveRight(currNode)
+                    moveLeft(currNode)
+                        
+
+                    if currNode.down != None:
+                        currTuple = []
+                        for i in currNode.down.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeDown = tuple(currTuple)
+
+                        if currNode.down not in frontier.queue or exploreNodeDown not in exploreSet:
+                            currNode.down.hN = misplacedTile(currNode.down, goalState)
+                            frontier.insert(currNode.down)
+
+                    if currNode.up != None:
+                        currTuple = []
+                        for i in currNode.up.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeUp = tuple(currTuple)
+                        if currNode.up not in frontier.queue or exploreNodeUp not in exploreSet:
+                            currNode.up.hN = misplacedTile(currNode.up, goalState)
+                            frontier.insert(currNode.up)
+
+                    if currNode.left != None:
+                        currTuple = []
+                        for i in currNode.left.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeLeft = tuple(currTuple)
+                        if currNode.left not in frontier.queue or exploreNodeLeft not in exploreSet:
+                            currNode.left.hN = misplacedTile(currNode.left, goalState)
+                            frontier.insert(currNode.left)
+                        
+                    if currNode.right != None:
+                        currTuple = []
+                        for i in currNode.right.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeRight = tuple(currTuple)
+                        if currNode.right not in frontier.queue or exploreNodeRight not in exploreSet:
+                            currNode.right.hN = misplacedTile(currNode.right, goalState)
+                            frontier.insert(currNode.right)
+
+
+
         elif problem == 3: #A* Euclidean Distance
             return
 
