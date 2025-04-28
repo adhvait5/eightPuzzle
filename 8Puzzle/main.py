@@ -59,6 +59,13 @@ class Node:
     
     def __gt__(self, o):
         return self.fN > o.fN
+    
+    def print(self):
+        for i in range(3):
+            for j in range(3):
+                print(self.data[i][j], end=" ")
+            print()
+        print()
 
  
  
@@ -237,6 +244,7 @@ if __name__ == '__main__':
                     maxQueueSize = len(frontier.queue)
 
                 currNode = frontier.delete()
+                #frontier.delete()
 
                 currTuple = []
                 for i in currNode.data:
@@ -262,6 +270,7 @@ if __name__ == '__main__':
                 else:
                     goalFound = 0
                     
+                    currNode.print()
                     exploreSet.add(exploreNode)
 
 
@@ -465,7 +474,7 @@ if __name__ == '__main__':
                     goalFound = 0
                     
       
-
+                    currNode.print()
                     exploreSet.add(exploreNode)
 
 
