@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
     userInput = np.array([[0,0,0], [0,0,0], [0,0,0]])
 
-    print("entries row-wise:")
+    print("Enter your puzzle row-wise:")
     for i in range(3):
         for j in range(3):
             userInput[i][j] = int(input())
@@ -244,6 +244,7 @@ if __name__ == '__main__':
                     maxQueueSize = len(frontier.queue)
 
                 currNode = frontier.delete()
+
                 #frontier.delete()
 
                 currTuple = []
@@ -251,6 +252,7 @@ if __name__ == '__main__':
                     currTuple.append(tuple(i))
 
                 exploreNode = tuple(currTuple)
+                exploreSet.add(exploreNode)
 
 
                 #Goal Check
@@ -271,8 +273,9 @@ if __name__ == '__main__':
                     goalFound = 0
                     
                     currNode.print()
-                    exploreSet.add(exploreNode)
-
+                    
+                    
+                    
 
                     
                     moveDown(currNode)
@@ -288,7 +291,13 @@ if __name__ == '__main__':
 
                         exploreNodeDown = tuple(currTuple)
 
-                        if currNode.down not in frontier.queue or exploreNodeDown not in exploreSet:
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.down.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeDown not in exploreSet:
                             frontier.insert(currNode.down)
 
                     if currNode.up != None:
@@ -297,7 +306,14 @@ if __name__ == '__main__':
                             currTuple.append(tuple(i))
 
                         exploreNodeUp = tuple(currTuple)
-                        if currNode.up not in frontier.queue or exploreNodeUp not in exploreSet:
+
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.up.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeUp not in exploreSet:
                             frontier.insert(currNode.up)
 
                     if currNode.left != None:
@@ -306,7 +322,14 @@ if __name__ == '__main__':
                             currTuple.append(tuple(i))
 
                         exploreNodeLeft = tuple(currTuple)
-                        if currNode.left not in frontier.queue or exploreNodeLeft not in exploreSet:
+
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.left.data,i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeLeft not in exploreSet:
                             frontier.insert(currNode.left)
                         
                     if currNode.right != None:
@@ -315,7 +338,14 @@ if __name__ == '__main__':
                             currTuple.append(tuple(i))
 
                         exploreNodeRight = tuple(currTuple)
-                        if currNode.right not in frontier.queue or exploreNodeRight not in exploreSet:
+
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.right.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeRight not in exploreSet:
                             frontier.insert(currNode.right)
 
 
