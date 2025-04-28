@@ -307,6 +307,7 @@ if __name__ == '__main__':
                     moveUp(currNode)
                     moveRight(currNode)
                     moveLeft(currNode)
+
                     
                     if currNode.right != None:
                         currTuple = []
@@ -420,7 +421,7 @@ if __name__ == '__main__':
                     print("Solution found!")
                     print("")
                     print("Cost:")
-                    print(currNode.gN + currNode. hN)
+                    print(currNode.gN + currNode.hN)
                     print("Maximum size of the queue: ")
                     print(maxQueueSize)
                     print("")
@@ -438,6 +439,22 @@ if __name__ == '__main__':
                     moveRight(currNode)
                     moveLeft(currNode)
                         
+                    if currNode.right != None:
+                        currTuple = []
+                        for i in currNode.right.data:
+                            currTuple.append(tuple(i))
+
+                        exploreNodeRight = tuple(currTuple)
+
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.right.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeRight not in exploreSet:
+                            currNode.right.hN = misplacedTile(currNode.right, goalState)
+                            frontier.insert(currNode.right)
 
                     if currNode.down != None:
                         currTuple = []
@@ -446,7 +463,13 @@ if __name__ == '__main__':
 
                         exploreNodeDown = tuple(currTuple)
 
-                        if currNode.down not in frontier.queue or exploreNodeDown not in exploreSet:
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.down.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeDown not in exploreSet:
                             currNode.down.hN = misplacedTile(currNode.down, goalState)
                             frontier.insert(currNode.down)
 
@@ -456,7 +479,14 @@ if __name__ == '__main__':
                             currTuple.append(tuple(i))
 
                         exploreNodeUp = tuple(currTuple)
-                        if currNode.up not in frontier.queue or exploreNodeUp not in exploreSet:
+
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.up.data, i.data)):
+                                frontierBool = False
+                                break
+                        
+                        if frontierBool and exploreNodeUp not in exploreSet:
                             currNode.up.hN = misplacedTile(currNode.up, goalState)
                             frontier.insert(currNode.up)
 
@@ -466,20 +496,18 @@ if __name__ == '__main__':
                             currTuple.append(tuple(i))
 
                         exploreNodeLeft = tuple(currTuple)
-                        if currNode.left not in frontier.queue or exploreNodeLeft not in exploreSet:
+
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.left.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeLeft not in exploreSet:
                             currNode.left.hN = misplacedTile(currNode.left, goalState)
                             frontier.insert(currNode.left)
                         
-                    if currNode.right != None:
-                        currTuple = []
-                        for i in currNode.right.data:
-                            currTuple.append(tuple(i))
-
-                        exploreNodeRight = tuple(currTuple)
-                        if currNode.right not in frontier.queue or exploreNodeRight not in exploreSet:
-                            currNode.right.hN = misplacedTile(currNode.right, goalState)
-                            frontier.insert(currNode.right)
-
+                    
 
 
         elif problem == 3: #A* Euclidean Distance
@@ -523,7 +551,7 @@ if __name__ == '__main__':
                     print("Solution found!")
                     print("")
                     print("Cost:")
-                    print(currNode.gN + currNode. hN)
+                    print(currNode.gN + currNode.hN)
                     print("Maximum size of the queue: ")
                     print(maxQueueSize)
                     break
@@ -548,7 +576,13 @@ if __name__ == '__main__':
 
                         exploreNodeDown = tuple(currTuple)
 
-                        if currNode.down not in frontier.queue or exploreNodeDown not in exploreSet:
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.down.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeDown not in exploreSet:
                             currNode.down.hN = euclideanDist(currNode.down, goalState)
                             frontier.insert(currNode.down)
 
@@ -558,7 +592,14 @@ if __name__ == '__main__':
                             currTuple.append(tuple(i))
 
                         exploreNodeUp = tuple(currTuple)
-                        if currNode.up not in frontier.queue or exploreNodeUp not in exploreSet:
+
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.up.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeUp not in exploreSet:
                             currNode.up.hN = euclideanDist(currNode.up, goalState)
                             frontier.insert(currNode.up)
 
@@ -568,7 +609,13 @@ if __name__ == '__main__':
                             currTuple.append(tuple(i))
 
                         exploreNodeLeft = tuple(currTuple)
-                        if currNode.left not in frontier.queue or exploreNodeLeft not in exploreSet:
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.left.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeLeft not in exploreSet:
                             currNode.left.hN = euclideanDist(currNode.left, goalState)
                             frontier.insert(currNode.left)
                         
@@ -578,7 +625,14 @@ if __name__ == '__main__':
                             currTuple.append(tuple(i))
 
                         exploreNodeRight = tuple(currTuple)
-                        if currNode.right not in frontier.queue or exploreNodeRight not in exploreSet:
+
+                        frontierBool = True
+                        for i in frontier.queue:
+                            if (np.array_equal(currNode.right.data, i.data)):
+                                frontierBool = False
+                                break
+
+                        if frontierBool and exploreNodeRight not in exploreSet:
                             currNode.right.hN = euclideanDist(currNode.right, goalState)
                             frontier.insert(currNode.right)
 
