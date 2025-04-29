@@ -31,7 +31,7 @@ class PriorityQueue(object):
             exit()
 
 
-#Node class from https://www.geeksforgeeks.org/python-program-for-inserting-a-node-in-a-linked-list/
+#Node class: https://www.geeksforgeeks.org/python-program-for-inserting-a-node-in-a-linked-list/
 #https://www.geeksforgeeks.org/python-__lt__-magic-method/
 
 
