@@ -87,6 +87,7 @@ if __name__ == '__main__':
     #rows = 3
     #col = 3
     
+    #Test Cases
     if puzzleChoice == 1:
         userInput = np.array([[1,2,3], [4,5,6], [7,8,0]])
     if puzzleChoice == 2:
@@ -100,7 +101,7 @@ if __name__ == '__main__':
     if puzzleChoice == 6:
         userInput = np.array([[1,2,3], [4,5,6], [8,7,0]])
     if puzzleChoice == 7:
-        userInput = np.array([[0,0,0], [0,0,0], [0,0,0]])
+        userInput = np.array([[0,0,0], [0,0,0], [0,0,0]]) #User Input
         
         print("Enter your puzzle, use a zero to represent the blank")
         print("Enter your puzzle row-wise:")
@@ -165,7 +166,7 @@ if __name__ == '__main__':
         return count
     
 
-    #G(n)
+    #G(n) operators
     #Down
     def moveDown(inputState):
         row = 0
@@ -269,10 +270,13 @@ if __name__ == '__main__':
                 if len(frontier.queue) > maxQueueSize:
                     maxQueueSize = len(frontier.queue)
 
+
+                #Choose Leaf node and remove it from frontier
                 currNode = frontier.delete()
 
                 #frontier.delete()
 
+                #Change the matrix to at tuple so it can be impemented in a set
                 currTuple = []
                 for i in currNode.data:
                     currTuple.append(tuple(i))
@@ -300,6 +304,7 @@ if __name__ == '__main__':
                 else:
                     goalFound = 0
                     
+                    #Expand Node
                     print("The best state to expand with g(n)= " + str(currNode.gN) + " and h(n)= " + str(currNode.hN) + " is...")
                     currNode.print()
                     print("Expanding this node...")
@@ -307,15 +312,13 @@ if __name__ == '__main__':
                     numExpand += 1
                     
                     
-                    
-
-                    
                     moveDown(currNode)
                     moveUp(currNode)
                     moveRight(currNode)
                     moveLeft(currNode)
 
                     
+                    #Add Expanded Node to the frontier
                     if currNode.right != None:
                         currTuple = []
                         for i in currNode.right.data:
@@ -381,16 +384,11 @@ if __name__ == '__main__':
                             frontier.insert(currNode.left)
                         
                     
-
-
-                    
-
-
-
         elif problem == 2: #A* Misplaced tile
             bool = False
             userInputNode = Node(userInput)
-            userInputNode.hN = misplacedTile(userInputNode, goalState)
+            
+            userInputNode.hN = misplacedTile(userInputNode, goalState) #update heuristic cost
             frontier = PriorityQueue()
             frontier.insert(userInputNode)
             maxQueueSize = 0
@@ -409,8 +407,10 @@ if __name__ == '__main__':
                 if len(frontier.queue) > maxQueueSize:
                     maxQueueSize = len(frontier.queue)
 
+                #Choose Leaf node and remove it from frontier
                 currNode = frontier.delete()
 
+                 #Change the matrix to at tuple so it can be impemented in a set
                 currTuple = []
                 for i in currNode.data:
                     currTuple.append(tuple(i))
@@ -439,6 +439,7 @@ if __name__ == '__main__':
                 else:
                     goalFound = 0
                     
+                    #Expand Node
                     print("The best state to expand with g(n)= " + str(currNode.gN) + " and h(n)= " + str(currNode.hN) + " is...")
                     currNode.print()
                     print("Expanding this node...")
@@ -450,7 +451,8 @@ if __name__ == '__main__':
                     moveUp(currNode)
                     moveRight(currNode)
                     moveLeft(currNode)
-                        
+                    
+                    #Add Expanded Node to the frontier
                     if currNode.right != None:
                         currTuple = []
                         for i in currNode.right.data:
@@ -519,13 +521,12 @@ if __name__ == '__main__':
                             currNode.left.hN = misplacedTile(currNode.left, goalState)
                             frontier.insert(currNode.left)
                         
-                    
 
 
         elif problem == 3: #A* Euclidean Distance
             bool = False
             userInputNode = Node(userInput)
-            userInputNode.hN = euclideanDist(userInputNode, goalState)
+            userInputNode.hN = euclideanDist(userInputNode, goalState) #update heuristic cost
             frontier = PriorityQueue()
             frontier.insert(userInputNode)
             maxQueueSize = 0
@@ -544,8 +545,10 @@ if __name__ == '__main__':
                 if len(frontier.queue) > maxQueueSize:
                     maxQueueSize = len(frontier.queue)
 
+                #Choose Leaf node and remove it from frontier
                 currNode = frontier.delete()
 
+                #Change the matrix to at tuple so it can be impemented in a set
                 currTuple = []
                 for i in currNode.data:
                     currTuple.append(tuple(i))
@@ -573,6 +576,7 @@ if __name__ == '__main__':
                 else:
                     goalFound = 0
                     
+                    #expand node
                     print("The best state to expand with g(n)= " + str(currNode.gN) + " and h(n)= " + str(currNode.hN) + " is...")
                     currNode.print()
                     print("Expanding this node...")
@@ -585,7 +589,7 @@ if __name__ == '__main__':
                     moveRight(currNode)
                     moveLeft(currNode)
                         
-
+                    #Add Expanded Node to the frontier
                     if currNode.down != None:
                         currTuple = []
                         for i in currNode.down.data:
