@@ -290,7 +290,7 @@ if __name__ == '__main__':
                 if goalFound == 9:
                     print("Solution found!")
                     print("")
-                    print("Cost:")
+                    print("Depth of Goal Node:")
                     print(currNode.gN)
                     print("Maximum size of the queue: ")
                     print(maxQueueSize)
@@ -428,7 +428,7 @@ if __name__ == '__main__':
                 if goalFound == 9:
                     print("Solution found!")
                     print("")
-                    print("Cost:")
+                    print("Depth of Goal Node:")
                     print(currNode.gN + currNode.hN)
                     print("Maximum size of the queue: ")
                     print(maxQueueSize)
@@ -563,7 +563,7 @@ if __name__ == '__main__':
                 if goalFound == 9:
                     print("Solution found!")
                     print("")
-                    print("Cost:")
+                    print("Depth of Goal Node:")
                     print(currNode.gN + currNode.hN)
                     print("Maximum size of the queue: ")
                     print(maxQueueSize)
