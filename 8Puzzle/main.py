@@ -256,6 +256,7 @@ if __name__ == '__main__':
             frontier = PriorityQueue()
             frontier.insert(userInputNode)
             maxQueueSize = 0
+            numExpand = 0
 
             exploreSet = set()
 
@@ -293,6 +294,8 @@ if __name__ == '__main__':
                     print(currNode.gN)
                     print("Maximum size of the queue: ")
                     print(maxQueueSize)
+                    print("Number of Nodes expanded: ")
+                    print(numExpand)
                     break
                 else:
                     goalFound = 0
@@ -301,6 +304,7 @@ if __name__ == '__main__':
                     currNode.print()
                     print("Expanding this node...")
                     exploreSet.add(exploreNode)
+                    numExpand += 1
                     
                     
                     
@@ -390,6 +394,7 @@ if __name__ == '__main__':
             frontier = PriorityQueue()
             frontier.insert(userInputNode)
             maxQueueSize = 0
+            numExpand = 0
 
             #return print(userInputNode.hN)
 
@@ -428,6 +433,8 @@ if __name__ == '__main__':
                     print("Maximum size of the queue: ")
                     print(maxQueueSize)
                     print("")
+                    print("Number of Nodes expanded: ")
+                    print(numExpand)
                     break
                 else:
                     goalFound = 0
@@ -436,6 +443,7 @@ if __name__ == '__main__':
                     currNode.print()
                     print("Expanding this node...")
                     exploreSet.add(exploreNode)
+                    numExpand += 1
 
 
                     moveDown(currNode)
@@ -521,6 +529,7 @@ if __name__ == '__main__':
             frontier = PriorityQueue()
             frontier.insert(userInputNode)
             maxQueueSize = 0
+            numExpand = 0
 
             #return print(userInputNode.hN)
 
@@ -558,6 +567,8 @@ if __name__ == '__main__':
                     print(currNode.gN + currNode.hN)
                     print("Maximum size of the queue: ")
                     print(maxQueueSize)
+                    print("Number of Nodes expanded: ")
+                    print(numExpand)
                     break
                 else:
                     goalFound = 0
@@ -566,6 +577,7 @@ if __name__ == '__main__':
                     currNode.print()
                     print("Expanding this node...")
                     exploreSet.add(exploreNode)
+                    numExpand += 1
 
 
                     moveDown(currNode)
